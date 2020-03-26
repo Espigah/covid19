@@ -1,57 +1,81 @@
 <template>
-  <div class="container">
-    <div>
-      <check />
-      <bar :chart-data="datacollection"> </bar>
-      <logo />
-      <h1 class="title">
-        Covid19
-      </h1>
-      <h2 class="subtitle">
-        Corona virus
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div>
+    <navbar />
+    <div class="container">
+      <div>
+        <dropdown />
+        <div class="row sticky">
+          <check class="col-2" />
+          <check class="col-2" />
+          <check class="col-2" />
+          <check class="col-2" />
+          <check class="col-2" />
+          <check class="col-2" />
+          <check class="col-2" />
+        </div>
+
+        <graph-holder>
+          <bar :chart-data="datacollection"> </bar>
+        </graph-holder>
+
+        <logo />
+        <h1 class="title">
+          Covid19
+        </h1>
+        <h2 class="subtitle">
+          Corona virus
+        </h2>
+        <div class="links">
+          <a href="https://nuxtjs.org/" target="_blank" class="button--green">
+            Documentation
+          </a>
+          <a
+            href="https://github.com/nuxt/nuxt.js"
+            target="_blank"
+            class="button--grey"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '../elements/Logo.vue'
-import Bar from '../elements/Bar.vue'
-import Api from '../api/Api.vue'
-import Check from '../elements/Check.vue'
+import Logo from "../elements/ui/Logo.vue";
+import Api from "../api/Api.vue";
+import Check from "../elements/ui/Check.vue";
+import Dropdown from "../elements/ui/Dropdown.vue";
+import Navbar from "../elements/ui/Navbar.vue";
+import GraphHolder from "../elements/ui/GraphHolder.vue";
+
+import Bar from "../elements/graph/Bar.vue";
 
 export default {
   components: {
     Logo,
     Bar,
-    Check
+    Check,
+    Dropdown,
+    Navbar,
+    GraphHolder,
+    Bar
   },
   data() {
     return {
       datacollection: null
-    }
+    };
   },
   mounted() {
-    this.fillData()
+    this.fillData();
   },
   created() {
-    Api.get().then((data) => {
+    Api.get().then(data => {
       setTimeout(() => {
-        this.datacollection.datasets[0].label = data
-      }, 5000)
-    })
+        this.datacollection.datasets[0].label = data;
+      }, 5000);
+    });
   },
   methods: {
     fillData() {
@@ -59,23 +83,23 @@ export default {
         labels: [this.getRandomInt(), this.getRandomInt()],
         datasets: [
           {
-            label: 'Data 2',
-            backgroundColor: '#f87979',
+            label: "Data 2",
+            backgroundColor: "#f87979",
             data: [this.getRandomInt(), this.getRandomInt()]
           },
           {
-            label: 'Data 1',
-            backgroundColor: '#f87979',
+            label: "Data 1",
+            backgroundColor: "#f87979",
             data: [this.getRandomInt(), this.getRandomInt()]
           }
         ]
-      }
+      };
     },
     getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -89,8 +113,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
@@ -108,5 +132,18 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.check {
+  margin: 5px 3px;
+}
+
+.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  background: #ffffffe6;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 </style>
