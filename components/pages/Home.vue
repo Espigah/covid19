@@ -3,7 +3,7 @@
     <navbar />
     <div class="container">
       <div>
-        <dropdown />
+        <dropdown :options="dropdownOptions"></dropdown>
         <div class="row sticky">
           <check class="col-2" />
           <check class="col-2" />
@@ -13,7 +13,6 @@
           <check class="col-2" />
           <check class="col-2" />
         </div>
-
 
         <graph-holder>
           <bar :chart-data="datacollection"> </bar>
@@ -65,19 +64,24 @@ export default {
   },
   data() {
     return {
-      datacollection: null
-      , countries: null
+      datacollection: null,
+      countries: null
     };
   },
   mounted() {
     this.fillData();
+    this.getCountries();
   },
-  created() {
-    Api.getCountries().then(data => {
-      console.log(data)
-    });
-  },
+  created() {},
   methods: {
+    getCountries() {
+      this.dropdownOptions = [];
+      Api.getCountries().then(data => {
+        console.log("dropdownOptions", data);
+        this.dropdownOptions = data;
+        this.$forceUpdate();
+      });
+    },
     fillData() {
       this.datacollection = {
         labels: [this.getRandomInt(), this.getRandomInt()],
@@ -94,7 +98,7 @@ export default {
           }
         ]
       };
-      this.countries = [{"Country":""},{"Country":""},{"Country":""}]
+      this.countries = [{ Country: "" }, { Country: "" }, { Country: "" }];
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
@@ -134,6 +138,7 @@ export default {
 .links {
   padding-top: 15px;
 }
+v-bind:
 
 .check {
   margin: 5px 3px;
