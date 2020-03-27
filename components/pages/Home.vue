@@ -14,6 +14,7 @@
           <check class="col-2" />
         </div>
 
+
         <graph-holder>
           <bar :chart-data="datacollection"> </bar>
         </graph-holder>
@@ -65,16 +66,15 @@ export default {
   data() {
     return {
       datacollection: null
+      , countries: null
     };
   },
   mounted() {
     this.fillData();
   },
   created() {
-    Api.get().then(data => {
-      setTimeout(() => {
-        this.datacollection.datasets[0].label = data;
-      }, 5000);
+    Api.getCountries().then(data => {
+      console.log(data)
     });
   },
   methods: {
@@ -94,6 +94,7 @@ export default {
           }
         ]
       };
+      this.countries = [{"Country":""},{"Country":""},{"Country":""}]
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
