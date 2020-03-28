@@ -15,6 +15,7 @@ class Api {
           "province": "",
           "slug": country.Slug
         })
+        /*
         for (var j in country.Provinces){
           var province = country.Provinces[j]
           if (province==''){
@@ -26,6 +27,7 @@ class Api {
             "slug": country.Slug
           })
         }
+        */
       }
       return countries
     }).catch((e) =>{
@@ -33,16 +35,29 @@ class Api {
     })
   }
 
-  get() {
+  getConfirmedCountryData(country, province){
+    var baseURL = "https://api.covid19api.com/"
+    if(province== ''){
+      baseURL += "/total"
+    }
+    var url = baseURL + "/country/"+country+"/status/confirmed"
     return axios
-      .get(`http://www.mocky.io/v2/5e7bd43d2d0000dc8b11a7af`)
-      .then((response) => {
-        // JSON responses are automatically parsed.
-        return response.data.name
-      })
-      .catch((e) => {
-        this.errors.push(e)
-      })
+    .get(url)
+    .then((response) => {
+      var data = response.data
+      var countryData =[]
+      for (var i in data){
+        countryData.push(
+          {
+            "date":data[i].Date.substring(5,10),
+            "confirmed":data[i].Cases
+          }
+        )
+      }
+      return countryData
+    }).catch((e) =>{
+      this.errors.push(e)
+    })
   }
 }
 export default new Api()

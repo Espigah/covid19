@@ -65,39 +65,66 @@ export default {
   },
   data() {
     return {
-      datacollection: null
+      datacollection: {
+        labels:[],
+        datasets:[]
+      }
       , countries: null
+      , contriesData: []
+      , graphColors: ["#f87979", "#f87979", "#f87979"]
     };
   },
   mounted() {
-    this.fillData();
   },
   created() {
     Api.getCountries().then(data => {
-      console.log(data)
+      this.countries = data
+      console.log("Total Countries loaded: "+this.countries.length)
+      console.log(this.countries)
+
+      //this.loadCountryConfirmedData(this.countries[11])
+      this.loadCountryConfirmedData(this.countries[26])
     });
+    
   },
   methods: {
-    fillData() {
-      this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
-        datasets: [
-          {
-            label: "Data 2",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          },
-          {
-            label: "Data 1",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
-      };
-      this.countries = [{"Country":""},{"Country":""},{"Country":""}]
+    loadCountryConfirmedData(countryData){
+      Api.getConfirmedCountryData(countryData.slug, countryData.province).then(data => {
+        this.contriesData[countryData.slug] = data
+        this.addDataToGraph(data, countryData.label)
+      })
     },
-    getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    addDataToGraph(countryData, label) {
+      console.log("Adding country on graph: "+label)
+
+      var labels = this.extractLabels(countryData)
+      var dataset = {
+        "label": label,
+        backgroundColor: this.graphColors[this.totalGraphElements()],
+        data: this.extractData(countryData)
+      }
+      
+      this.datacollection = {
+        labels: labels,
+        datasets: [dataset]
+      }
+    },
+    totalGraphElements(){
+      return this.datacollection.datasets.length
+    },
+    extractData(countryData){
+      var data=[]
+      for (var i in countryData){
+        data.push(countryData[i].confirmed)
+      }
+      return data
+    },
+    extractLabels(countryData){
+      var labels=[]
+      for (var i in countryData){
+        labels.push(countryData[i].date)
+      }
+      return labels
     }
   }
 };
