@@ -13,29 +13,7 @@
           @remove="removeCounty($event)"
         ></country-list>
 
-        <graph-holder>
-          <bar :chart-data="datacollection"> </bar>
-        </graph-holder>
-
-        <logo />
-        <h1 class="title">
-          Covid19
-        </h1>
-        <h2 class="subtitle">
-          Corona virus
-        </h2>
-        <div class="links">
-          <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-            Documentation
-          </a>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            class="button--grey"
-          >
-            GitHub
-          </a>
-        </div>
+        <graph-area :countryList="countryList"> </graph-area>
       </div>
     </div>
   </div>
@@ -46,18 +24,14 @@ import Api from "../api/Api.vue";
 import CountryList from "../elements/ui/CountryList.vue";
 import Dropdown from "../elements/ui/Dropdown.vue";
 import Navbar from "../elements/ui/Navbar.vue";
-import GraphHolder from "../elements/ui/GraphHolder.vue";
-
-import Bar from "../elements/graph/Bar.vue";
+import GraphArea from "../elements/ui/GraphArea.vue";
 
 export default {
   components: {
-    Bar,
     CountryList,
     Dropdown,
     Navbar,
-    GraphHolder,
-    Bar
+    GraphArea
   },
   data() {
     return {
@@ -70,6 +44,7 @@ export default {
       countries: null,
       contriesData: [],
       graphColors: ["#f87979", "#f87979", "#f87979"]
+      dropdownOptions: []
     };
   },
   mounted() {

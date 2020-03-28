@@ -22,9 +22,12 @@ export default {
   props: {
     options: Array
   },
-  mounted() {
-    this.prompt = "Dropdown";
+  data() {
+    return {
+      prompt: "Dropdown"
+    };
   },
+  mounted() {},
   methods: {
     change(item) {
       this.prompt = item.label;
