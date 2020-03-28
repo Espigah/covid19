@@ -47,11 +47,12 @@ export default {
     getCountries() {
       this.dropdownOptions = [];
       Api.getCountries().then(data => {
-        console.log("dropdownOptions", data);
+        console.log("Total Countries loaded: "+data.length)
         this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
       });
     },
+
     addCounty($event) {
       const index = this.countryList.findIndex(x => x.label == $event.label);
       if (index > -1) {
