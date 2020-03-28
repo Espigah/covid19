@@ -3,6 +3,12 @@
     <navbar />
     <div class="container">
       <div class="col container-content">
+        <h2>Covid19</h2>
+        <p>
+          Lorem Ipsum Lorem ipsum is placeholder text commonly used in the
+          graphic, print, and publishing industries for previewing layouts and
+          visual mockups
+        </p>
         <dropdown
           :options="dropdownOptions"
           @add="addCounty($event)"
@@ -47,7 +53,7 @@ export default {
     getCountries() {
       this.dropdownOptions = [];
       Api.getCountries().then(data => {
-        console.log("Total Countries loaded: "+data.length)
+        console.log("Total Countries loaded: " + data.length);
         this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
       });

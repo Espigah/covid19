@@ -20,3 +20,8 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+
+[nodemon] Internal watch failed: ENOSPC: System limit for number of file watchers reached, watch '/home/fsrg/workspace/marlon/covid19/server'
+
+    sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
