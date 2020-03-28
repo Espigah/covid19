@@ -25,7 +25,6 @@ export default {
     }
   },
   mounted() {
-    this.list = [];
   },
   methods: {
     change($event, item) {
