@@ -24,7 +24,7 @@ export default {
         datasets: []
       },
       countriesData: [],
-      graphColors: ["#f87979", "#f87979", "#f87979"]
+      graphColors: ["#f87979", "#f87979", "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88"]
     };
   },
   props: {
