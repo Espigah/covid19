@@ -2,18 +2,16 @@
   <div>
     <navbar />
     <div class="container">
-      <div>
-        <dropdown />
-        <div class="row sticky">
-          <check class="col-2" />
-          <check class="col-2" />
-          <check class="col-2" />
-          <check class="col-2" />
-          <check class="col-2" />
-          <check class="col-2" />
-          <check class="col-2" />
-        </div>
+      <div class="col container-content">
+        <dropdown
+          :options="dropdownOptions"
+          @add="addCounty($event)"
+        ></dropdown>
 
+        <country-list
+          :list="countryList"
+          @remove="removeCounty($event)"
+        ></country-list>
 
         <graph-holder>
           <bar :chart-data="datacollection"> </bar>
@@ -44,9 +42,8 @@
 </template>
 
 <script>
-import Logo from "../elements/ui/Logo.vue";
 import Api from "../api/Api.vue";
-import Check from "../elements/ui/Check.vue";
+import CountryList from "../elements/ui/CountryList.vue";
 import Dropdown from "../elements/ui/Dropdown.vue";
 import Navbar from "../elements/ui/Navbar.vue";
 import GraphHolder from "../elements/ui/GraphHolder.vue";
@@ -55,9 +52,8 @@ import Bar from "../elements/graph/Bar.vue";
 
 export default {
   components: {
-    Logo,
     Bar,
-    Check,
+    CountryList,
     Dropdown,
     Navbar,
     GraphHolder,
@@ -68,31 +64,34 @@ export default {
       datacollection: {
         labels:[],
         datasets:[]
-      }
-      , countries: null
-      , contriesData: []
-      , graphColors: ["#f87979", "#f87979", "#f87979"]
+        },
+      countryList: [],
+      dropdownOptions: [],
+      countries: null,
+      contriesData: [],
+      graphColors: ["#f87979", "#f87979", "#f87979"]
     };
   },
   mounted() {
+    this.getCountries();
   },
-  created() {
-    Api.getCountries().then(data => {
-      this.countries = data
-      console.log("Total Countries loaded: "+this.countries.length)
-      console.log(this.countries)
-
-      //this.loadCountryConfirmedData(this.countries[11])
-      this.loadCountryConfirmedData(this.countries[26])
-    });
-    
-  },
+  created() {},
   methods: {
+    getCountries() {
+      this.dropdownOptions = [];
+      Api.getCountries().then(data => {
+        console.log("Total Countries loaded: "+this.countries.length)
+        this.dropdownOptions = data.filter(a => !a.province);
+        this.$forceUpdate();
+
+        this.loadCountryConfirmedData(this.countries[26])
+      });
+    },
     loadCountryConfirmedData(countryData){
-      Api.getConfirmedCountryData(countryData.slug, countryData.province).then(data => {
-        this.contriesData[countryData.slug] = data
-        this.addDataToGraph(data, countryData.label)
-      })
+          Api.getConfirmedCountryData(countryData.slug, countryData.province).then(data => {
+            this.contriesData[countryData.slug] = data
+            this.addDataToGraph(data, countryData.label)
+          })
     },
     addDataToGraph(countryData, label) {
       console.log("Adding country on graph: "+label)
@@ -103,7 +102,7 @@ export default {
         backgroundColor: this.graphColors[this.totalGraphElements()],
         data: this.extractData(countryData)
       }
-      
+
       this.datacollection = {
         labels: labels,
         datasets: [dataset]
@@ -125,6 +124,16 @@ export default {
         labels.push(countryData[i].date)
       }
       return labels
+    },
+    addCounty($event) {
+      const index = this.countryList.findIndex(x => x.label == $event.label);
+      if (index > -1) {
+        return;
+      }
+      this.countryList.push($event);
+    },
+    removeCounty(country) {
+      this.countryList = this.countryList.filter(x => x.label !== country);
     }
   }
 };
@@ -140,26 +149,10 @@ export default {
   text-align: center;
 }
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.container-content {
+  position: absolute;
+  top: 50px;
+  padding: 20px 35px;
 }
 
 .check {
