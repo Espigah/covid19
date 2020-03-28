@@ -10,6 +10,7 @@
 <script>
 import GraphHolder from "./GraphHolder.vue";
 import Bar from "../graph/Bar";
+import Api from "../../api/Api.vue";
 
 export default {
   components: {
@@ -18,7 +19,12 @@ export default {
   },
   data() {
     return {
-      datacollection: []
+      datacollection: {
+      labels:[],
+      datasets:[]
+      },
+      countriesData: [],
+      graphColors: ["#f87979", "#f87979", "#f87979"]
     };
   },
   props: {
@@ -28,28 +34,45 @@ export default {
     }
   },
   mounted() {
-    this.fillData();
   },
   methods: {
-    fillData() {
-      this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
-        datasets: [
-          {
-            label: "Data 2",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          },
-          {
-            label: "Data 1",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
-      };
+    loadCountryConfirmedData: function (countryData){
+      Api.getConfirmedCountryData(countryData.slug, countryData.province).then(data => {
+        this.countriesData[countryData.slug] = data
+        this.addDataToGraph(data, countryData.label)
+      })
     },
-    getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    addDataToGraph(countryData, label) {
+      console.log("Adding country on graph: "+label)
+
+      var labels = this.extractLabels(countryData)
+      var dataset = {
+        "label": label,
+        backgroundColor: this.graphColors[this.totalGraphElements()],
+        data: this.extractData(countryData)
+      }
+
+      this.datacollection = {
+        labels: labels,
+        datasets: [dataset]
+      }
+    },
+    totalGraphElements(){
+      return this.datacollection.datasets.length
+    },
+    extractData(countryData){
+      var data=[]
+      for (var i in countryData){
+        data.push(countryData[i].confirmed)
+      }
+      return data
+    },
+    extractLabels(countryData){
+      var labels=[]
+      for (var i in countryData){
+        labels.push(countryData[i].date)
+      }
+      return labels
     }
   }
 };

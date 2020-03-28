@@ -35,15 +35,7 @@ export default {
   },
   data() {
     return {
-      datacollection: {
-        labels:[],
-        datasets:[]
-        },
       countryList: [],
-      dropdownOptions: [],
-      countries: null,
-      contriesData: [],
-      graphColors: ["#f87979", "#f87979", "#f87979"]
       dropdownOptions: []
     };
   },
@@ -55,51 +47,15 @@ export default {
     getCountries() {
       this.dropdownOptions = [];
       Api.getCountries().then(data => {
-        console.log("Total Countries loaded: "+this.countries.length)
+        console.log("Total Countries loaded: "+data.length)
         this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
 
-        this.loadCountryConfirmedData(this.countries[26])
+        //DEBUG
+        GraphArea.methods.loadCountryConfirmedData(this.dropdownOptions[25])
       });
     },
-    loadCountryConfirmedData(countryData){
-          Api.getConfirmedCountryData(countryData.slug, countryData.province).then(data => {
-            this.contriesData[countryData.slug] = data
-            this.addDataToGraph(data, countryData.label)
-          })
-    },
-    addDataToGraph(countryData, label) {
-      console.log("Adding country on graph: "+label)
 
-      var labels = this.extractLabels(countryData)
-      var dataset = {
-        "label": label,
-        backgroundColor: this.graphColors[this.totalGraphElements()],
-        data: this.extractData(countryData)
-      }
-
-      this.datacollection = {
-        labels: labels,
-        datasets: [dataset]
-      }
-    },
-    totalGraphElements(){
-      return this.datacollection.datasets.length
-    },
-    extractData(countryData){
-      var data=[]
-      for (var i in countryData){
-        data.push(countryData[i].confirmed)
-      }
-      return data
-    },
-    extractLabels(countryData){
-      var labels=[]
-      for (var i in countryData){
-        labels.push(countryData[i].date)
-      }
-      return labels
-    },
     addCounty($event) {
       const index = this.countryList.findIndex(x => x.label == $event.label);
       if (index > -1) {
