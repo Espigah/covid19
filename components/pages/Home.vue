@@ -13,9 +13,7 @@
           @remove="removeCounty($event)"
         ></country-list>
 
-        <graph-holder>
-          <bar :chart-data="datacollection"> </bar>
-        </graph-holder>
+        <graph-area :countryList="countryList"> </graph-area>
       </div>
     </div>
   </div>
@@ -26,29 +24,22 @@ import Api from "../api/Api.vue";
 import CountryList from "../elements/ui/CountryList.vue";
 import Dropdown from "../elements/ui/Dropdown.vue";
 import Navbar from "../elements/ui/Navbar.vue";
-import GraphHolder from "../elements/ui/GraphHolder.vue";
-
-import Bar from "../elements/graph/Bar.vue";
+import GraphArea from "../elements/ui/GraphArea.vue";
 
 export default {
   components: {
-    Bar,
     CountryList,
     Dropdown,
     Navbar,
-    GraphHolder,
-    Bar
+    GraphArea
   },
   data() {
     return {
-      datacollection: [],
       countryList: [],
-      dropdownOptions: [],
-      countries: null
+      dropdownOptions: []
     };
   },
   mounted() {
-    this.fillData();
     this.getCountries();
   },
   created() {},
@@ -60,27 +51,6 @@ export default {
         this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
       });
-    },
-    fillData() {
-      this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
-        datasets: [
-          {
-            label: "Data 2",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          },
-          {
-            label: "Data 1",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
-      };
-      this.countries = [{ Country: "" }, { Country: "" }, { Country: "" }];
-    },
-    getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     },
     addCounty($event) {
       const index = this.countryList.findIndex(x => x.label == $event.label);
