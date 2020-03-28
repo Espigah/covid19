@@ -1,17 +1,17 @@
 <template>
-  <div class="rounded border check row justify-content-between">
-    <div class="input-area">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        value="option1"
-      />
-
-      <span>BRA</span>
-      <flag> </flag>
+  <div class="check rounded border row justify-content-between" :class="$mq">
+    <div class="input-area" @click="change($event)">
+      <input class="form-check-input" type="checkbox" value="option1" checked />
+      <span class="label">{{ country.substring(0, 3).toUpperCase() }}</span>
+      <flag v-if="$mq != 'sm' && $mq != 'xs'"> </flag>
     </div>
     <div>
-      <button type="button" class="close" aria-label="Close">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        @click="$emit('remove', country)"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -24,13 +24,56 @@ import Flag from "./Flag.vue";
 export default {
   components: {
     Flag
+  },
+  data() {
+    return {
+      checked: true
+    };
+  },
+  props: {
+    country: String
+  },
+  mounted() {},
+  methods: {
+    change($event) {
+      if ($event.target.type === "checkbox") {
+        this.checked = $event.target.checked;
+      } else {
+        this.checked = !this.checked;
+        $event.currentTarget.querySelector("input").checked = this.checked;
+      }
+
+      this.$emit("change", this.checked);
+    }
   }
 };
 </script>
-<style>
+<style lang="scss">
 .check {
-  min-height: 40px;
-  padding-top: 8px;
+  font-size: 12px;
+  &.xs {
+    font-size: 10px;
+    min-height: 20px;
+    padding-right: 2px;
+  }
+  &.sm {
+    font-size: 12px;
+    min-height: 20px;
+    padding-right: 3px;
+  }
+  &.md,
+  &.lg,
+  &.xlg {
+    font-size: 14px;
+    min-height: 40px;
+    padding-top: 8px;
+  }
+}
+.label {
+  &.xs,
+  &.sm {
+    line-height: 22px;
+  }
 }
 .button {
   width: 25px;
