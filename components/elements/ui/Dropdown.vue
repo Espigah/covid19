@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      prompt: "Dropdown"
+      prompt: "Selecione o país"
     };
   },
   mounted() {},

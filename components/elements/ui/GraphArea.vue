@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      datacollection: []
+      datacollection: {}
     };
   },
   props: {
@@ -28,28 +28,37 @@ export default {
     }
   },
   mounted() {
-    this.fillData();
+    this.datasets = [];
+    this.updateGraph(this.countryList);
+  },
+  watch: {
+    countryList(value) {
+      this.updateGraph(value);
+    }
   },
   methods: {
-    fillData() {
-      this.datacollection = {
-        labels: [this.getRandomInt(), this.getRandomInt()],
-        datasets: [
-          {
-            label: "Data 2",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          },
-          {
-            label: "Data 1",
-            backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
-      };
-    },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    },
+    createGraphData(label) {
+      return {
+        label,
+        backgroundColor: "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88",
+        data: [this.getRandomInt(), this.getRandomInt()]
+      };
+    },
+    updateGraph(list) {
+      this.dataset = this.dataset || [];
+      this.dataset = list.map(element => {
+        const index = this.dataset.findIndex(x => x.label == element.label);
+        const data = this.dataset[index] || this.createGraphData(element.label);
+        return data;
+      });
+
+      this.datacollection = {
+        labels: ["x", "y"],
+        datasets: this.dataset
+      };
     }
   }
 };
