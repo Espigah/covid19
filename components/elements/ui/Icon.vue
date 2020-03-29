@@ -66,7 +66,7 @@ l-11 41 122 129 c67 72 125 130 129 130 4 0 41 -16 83 -35 76 -35 243 -85 285
 }
 
 .float {
-  animation: 5s rotation;
+  animation: 10s float infinite;
   margin: auto;
 }
 
@@ -81,10 +81,24 @@ l-11 41 122 129 c67 72 125 130 129 130 4 0 41 -16 83 -35 76 -35 243 -85 285
 
 @keyframes float {
   0% {
-    par: 0;
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
+  }
+  25% {
+    /* box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2); */
+    transform: translatey(-4px);
+  }
+  50% {
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
+  }
+  75% {
+    /* box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2); */
+    transform: translatey(-2px);
   }
   100% {
-    opacity: 1;
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
   }
 }
 </style>

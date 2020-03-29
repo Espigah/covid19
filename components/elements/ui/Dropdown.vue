@@ -54,12 +54,19 @@ export default {
 <style lang="scss">
 .dropdown {
   min-width: 300px;
+  button {
+    background: black;
+    &:hover {
+      background-color: black !important;
+    }
+  }
 }
 .dropdown-menu {
   width: 100%;
   overflow-y: scroll;
-  max-height: 500px;
+  max-height: 40vh;
   top: 30px;
+  color: #ddd;
 }
 #dropdown-search {
   width: 100%;

@@ -1,14 +1,9 @@
 <template>
   <div>
     <navbar />
-    <div class="container">
+    <div class="container centred">
       <div class="col container-content">
-        <h2>Covid19</h2>
-        <p>
-          Lorem Ipsum Lorem ipsum is placeholder text commonly used in the
-          graphic, print, and publishing industries for previewing layouts and
-          visual mockups
-        </p>
+        <introduction />
         <dropdown
           :options="dropdownOptions"
           @add="addCounty($event)"
@@ -22,6 +17,10 @@
         <graph-area :countryList="countryList"> </graph-area>
       </div>
     </div>
+    <div class="container">
+      <info />
+      <footer-content />
+    </div>
   </div>
 </template>
 
@@ -31,13 +30,19 @@ import CountryList from "../elements/ui/CountryList.vue";
 import Dropdown from "../elements/ui/Dropdown.vue";
 import Navbar from "../elements/ui/Navbar.vue";
 import GraphArea from "../elements/ui/GraphArea.vue";
+import Introduction from "../elements/ui/Introduction.vue";
+import Info from "../elements/ui/Info.vue";
+import FooterContent from "../elements/ui/FooterContent.vue";
 
 export default {
   components: {
     CountryList,
     Dropdown,
     Navbar,
-    GraphArea
+    GraphArea,
+    Introduction,
+    Info,
+    FooterContent
   },
   data() {
     return {
@@ -77,6 +82,9 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
+}
+
+.centred {
   display: flex;
   justify-content: center;
   align-items: center;

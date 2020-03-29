@@ -1,9 +1,11 @@
 <template>
   <div>
-    <graph-holder>
+    <graph-holder :title="'mortes'">
       <bar :chart-data="datacollection"> </bar>
     </graph-holder>
-    lista: {{ countryList }}
+    <graph-holder :title="'contagio'">
+      <bar :chart-data="datacollection"> </bar>
+    </graph-holder>
   </div>
 </template>
 
@@ -24,7 +26,11 @@ export default {
         datasets: []
       },
       countriesData: [],
-      graphColors: ["#f87979", "#f87979", "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88"]
+      graphColors: [
+        "#f87979",
+        "#f87979",
+        "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88"
+      ]
     };
   },
   props: {
