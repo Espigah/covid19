@@ -41,27 +41,44 @@ class Api {
   }
 
   getConfirmedCountryData(country, province){
-      var baseURL = "https://api.covid19api.com/"
+      let baseURL = "https://api.covid19api.com/"
       if(province== ''){
         baseURL += "/total"
       }
-      var url = baseURL + "/country/"+country+"/status/confirmed"
+      let url = baseURL + "/country/"+country+"/status/confirmed"
       return axios
       .get(url)
       .then((response) => {
+      console.log(response)
+        let nextDate = new Date("2020-01-22T00:00:00Z")
+        let day = 60 * 60 * 24 * 1000;
         var data = response.data
         var countryData =[]
+        let total=0
         for (var i in data){
+          let readDate = new Date(Date.parse(data[i].Date))
+          while(nextDate.getTime() < readDate.getTime()){
+            countryData.push(
+              {
+                "date":nextDate,
+                "confirmed":total
+              }
+            )
+            nextDate = new Date(nextDate.getTime() + day);
+          }
           countryData.push(
             {
-              "date":data[i].Date.substring(5,10),
+              "date":readDate,
               "confirmed":data[i].Cases
             }
           )
+          total = data[i].Cases
+          nextDate = new Date (readDate.getTime()+day)
         }
         return countryData
       }).catch((e) =>{
-        this.errors.push(e)
+        alert(e);
+        console.log(e);
       })
     }
 }
