@@ -6,15 +6,15 @@
         <introduction />
         <dropdown
           :options="dropdownOptions"
-          @add="addCounty($event)"
+          @add="addCountry($event)"
         ></dropdown>
 
         <country-list
           :list="countryList"
-          @remove="removeCounty($event)"
+          @remove="removeCountry($event)"
         ></country-list>
 
-        <graph-area :countryList="countryList"> </graph-area>
+        <graph-area :countryAddedEvent="countryAddedEvent" :countryRemovedEvent="countryRemovedEvent"> </graph-area>
       </div>
     </div>
     <div class="container">
@@ -47,6 +47,8 @@ export default {
   data() {
     return {
       countryList: [],
+      countryAddedEvent: {},
+      countryRemovedEvent: "",
       dropdownOptions: []
     };
   },
@@ -63,16 +65,17 @@ export default {
         this.$forceUpdate();
       });
     },
-
-    addCounty($event) {
+    addCountry($event) {
       const index = this.countryList.findIndex(x => x.label == $event.label);
       if (index > -1) {
         return;
       }
       this.countryList.push($event);
+      this.countryAddedEvent = $event;
     },
-    removeCounty(country) {
-      this.countryList = this.countryList.filter(x => x.label !== country);
+    removeCountry($event) {
+      this.countryList = this.countryList.filter(x => x.label !== $event);
+      this.countryRemovedEvent = $event;
     }
   }
 };
