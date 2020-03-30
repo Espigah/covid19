@@ -1,7 +1,7 @@
 <template>
   <div>
     <graph-holder :title="'Cases Confirmed'">
-          <bar :chart-data="datacollectionConfirmed"> </bar>
+          <bar :chart-data="datacollectionConfirmed" v:on > </bar>
         </graph-holder>
     <graph-holder :title="'Deaths'">
       <bar :chart-data="datacollectionDeath"> </bar>
@@ -44,27 +44,30 @@ export default {
   },
   watch: {
     countryAddedEvent(value) {
-      this.loadCountryConfirmedData(value);
-      this.loadCountryDeathData(value);
+      let color=this.randomColor()
+      this.loadCountryConfirmedData(value, color);
+      this.loadCountryDeathData(value, color);
+      this.countriesList.push(value.label)
     },
     countryRemovedEvent(value){
-      this.removeCountryFromGraphs(value)
+      const index = this.countriesList.findIndex(x => x == value);
+      this.countriesList.splice(index,1)
+      this.removeCountryFromGraphs(index)
     }
   },
   mounted() {},
   methods: {
-    loadCountryConfirmedData(countryData) {
-      this.loadCountryData(countryData, "confirmed")
+    loadCountryConfirmedData(countryData, color) {
+      this.loadCountryData(countryData, "confirmed", color)
     },
-    loadCountryDeathData(countryData) {
-      this.loadCountryData(countryData, "deaths")
+    loadCountryDeathData(countryData, color) {
+      this.loadCountryData(countryData, "deaths", color)
     },
-    loadCountryData(countryData, type) {
+    loadCountryData(countryData, type, color) {
       let datacollection = (type=="confirmed") ? this.datacollectionConfirmed: this.datacollectionDeath
-      this.countriesList.push(countryData.label)
       Api.getCountryData(countryData.slug, countryData.province, type).then(
         data => {
-          let graphData = this.addDataToGraph(datacollection, data, countryData.label);
+          let graphData = this.addDataToGraph(datacollection, data, countryData.label, color);
           if(type=="confirmed"){
             this.datacollectionConfirmed = graphData
           }else{
@@ -73,11 +76,11 @@ export default {
         }
       );
     },
-    addDataToGraph(graphData, countryData, label) {
+    addDataToGraph(graphData, countryData, label, color) {
         var labels = this.extractLabels(countryData);
         var dataset = {
           label: label,
-          backgroundColor: this.randomColor(),
+          backgroundColor: color,
           data: this.extractData(countryData)
         };
 
@@ -89,10 +92,18 @@ export default {
           datasets: datasets
         };
       },
-      removeCountryFromGraphs(country){
-        const index = this.countriesList.findIndex(x => x == country);
+      removeCountryFromGraphs(index){
         this.datacollectionConfirmed.datasets.splice(index,1)
+        this.datacollectionConfirmed = {
+            labels: this.datacollectionConfirmed.labels,
+            datasets: this.datacollectionConfirmed.datasets
+        }
+
         this.datacollectionDeath.datasets.splice(index,1)
+        this.datacollectionDeath = {
+            labels: this.datacollectionDeath.labels,
+            datasets: this.datacollectionDeath.datasets
+        }
       },
       randomColor() {
         return "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88"
