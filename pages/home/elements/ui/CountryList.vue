@@ -1,7 +1,7 @@
 <template>
   <div class="row sticky">
     <check
-      class="col-3 col-sm-3 col-md-2 col-lg-1"
+      class="col-3 col-sm-3"
       v-for="item in list"
       :key="item.label"
       @change="change($event, item)"

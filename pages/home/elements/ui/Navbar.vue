@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="">
-      <b-navbar-brand href="#"><icon class="icon" mq="lg"/></b-navbar-brand>
+      <b-navbar-brand href="#"><icon class="icon"/></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -31,8 +31,8 @@ export default {
   top: 0;
   margin-top: 10px;
   margin-left: 10px;
-  &.lg,
-  &.xlg {
+  @media (min-width: 992px) {
+    margin-top: 5px;
     height: 20px;
     width: 20px;
   }

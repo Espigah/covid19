@@ -14,25 +14,31 @@
           @remove="removeCountry($event)"
         ></country-list>
 
-        <graph-area :countryAddedEvent="countryAddedEvent" :countryRemovedEvent="countryRemovedEvent"> </graph-area>
+        <graph-area
+          :countryAddedEvent="countryAddedEvent"
+          :countryRemovedEvent="countryRemovedEvent"
+        >
+        </graph-area>
       </div>
     </div>
     <div class="container">
-      <info />
-      <footer-content />
+      <div class="row">
+        <info />
+        <footer-content />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Api from "../api/Api.vue";
-import CountryList from "../elements/ui/CountryList.vue";
-import Dropdown from "../elements/ui/Dropdown.vue";
-import Navbar from "../elements/ui/Navbar.vue";
-import GraphArea from "../elements/ui/GraphArea.vue";
-import Introduction from "../elements/ui/Introduction.vue";
-import Info from "../elements/ui/Info.vue";
-import FooterContent from "../elements/ui/FooterContent.vue";
+import Api from "../../api/Api.vue";
+import CountryList from "./elements/ui/CountryList.vue";
+import Dropdown from "./elements/ui/Dropdown.vue";
+import Navbar from "./elements/ui/Navbar.vue";
+import GraphArea from "./components/GraphArea.vue";
+import Introduction from "./elements/ui/Introduction.vue";
+import Info from "./elements/ui/Info.vue";
+import FooterContent from "./elements/ui/FooterContent.vue";
 
 export default {
   components: {
@@ -59,7 +65,8 @@ export default {
   methods: {
     getCountries() {
       this.dropdownOptions = [];
-      Api.getCountries().then(data => {
+      debugger
+      Api.countries.get().then(data => {
         console.log("Total Countries loaded: " + data.length);
         this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
@@ -95,6 +102,7 @@ export default {
 }
 
 .container-content {
+  position: inherit;
   position: absolute;
   top: 50px;
   padding: 20px 35px;
