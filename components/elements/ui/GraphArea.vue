@@ -29,7 +29,8 @@ export default {
         labels: [],
         datasets: []
       },
-      countriesList:[]
+      countriesList:[],
+      countriesDayZero: {}
     };
   },
   props: {
@@ -70,6 +71,9 @@ export default {
           let graphData = this.addDataToGraph(datacollection, data, countryData.label, color);
           if(type=="confirmed"){
             this.datacollectionConfirmed = graphData
+            let dayZero = this.calculateCountryDayZero(data)
+            this.countriesDayZero[countryData.slug] = dayZero
+            console.log(countryData.slug+ ": "+dayZero)
           }else{
             this.datacollectionDeath = graphData
           }
@@ -91,6 +95,15 @@ export default {
           labels: labels,
           datasets: datasets
         };
+      },
+      calculateCountryDayZero(countryData){
+        let data = this.extractData(countryData)
+        for(var i in data){
+          let value = countryData[i]
+          if(value.total > 0){
+            return value.date
+          }
+        }
       },
       removeCountryFromGraphs(index){
         this.datacollectionConfirmed.datasets.splice(index,1)
