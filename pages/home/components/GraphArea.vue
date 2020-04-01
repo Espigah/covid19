@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <input type="radio" id="from_beg" value="all_data" v-model="starting_at"  @click="changeStartPoint($event)">
+    <label for="from_beg">All data</label>
+    <br>
+    <input type="radio" id="from_d_zero" value="day_zero" v-model="starting_at" @click="changeStartPoint($event)">
+    <label for="from_d_zero">Day Zero</label>
+    <br>
     <graph-holder :title="'Cases Confirmed'">
       <bar :chart-data="datacollectionConfirmed" v:on> </bar>
     </graph-holder>
@@ -34,7 +40,8 @@ export default {
         datasets: []
       },
       countriesList: [],
-      countriesDayZero: {}
+      countriesDayZero: {},
+      starting_at: "all_data"
     };
   },
   props: {
@@ -62,6 +69,10 @@ export default {
   },
   mounted() {},
   methods: {
+    changeStartPoint($event){
+        console.log($event)
+        console.log(this.starting_at)
+    },
     loadCountryConfirmedData(countryData, color) {
       this.loadCountryData(countryData, "confirmed", color);
     },
