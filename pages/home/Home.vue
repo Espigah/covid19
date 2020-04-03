@@ -17,7 +17,7 @@
         <graph-area class="graph-area"> </graph-area>
       </div>
     </div>
-    <div class="container">
+    <div class="container container-footer">
       <div class="row">
         <info />
         <footer-content />
@@ -103,13 +103,10 @@ export default {
 }
 
 .container-content {
-  position: inherit;
-  position: absolute;
+  position: relative;
   top: 50px;
   padding: 20px 35px;
 }
-
-
 
 .sticky {
   position: -webkit-sticky; /* Safari */
@@ -118,5 +115,9 @@ export default {
   background: #ffffffe6;
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+.container-fotter {
+  margin-top: 35px;
 }
 </style>
