@@ -22,12 +22,18 @@
         <label class="form-check-label" for="from_d_zero">Day Zero</label>
       </div>
     </div>
-    <graph-holder :title="'Cases Confirmed'">
-      <bar :chart-data="datacollectionConfirmed" v:on> </bar>
-    </graph-holder>
-    <graph-holder :title="'Deaths'">
-      <bar :chart-data="datacollectionDeath"> </bar>
-    </graph-holder>
+    <div class="raw">
+      <div class="col">
+        <graph-holder :title="'Cases Confirmed'">
+          <bar :chart-data="datacollectionConfirmed" v:on> </bar>
+        </graph-holder>
+      </div>
+      <div class="col">
+        <graph-holder :title="'Deaths'">
+          <bar :chart-data="datacollectionDeath"> </bar>
+        </graph-holder>
+      </div>
+    </div>
   </div>
 </template>
 <script>

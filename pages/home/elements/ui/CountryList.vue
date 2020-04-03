@@ -1,7 +1,7 @@
 <template>
   <div class="row sticky">
     <check
-      class="col-3 col-sm-3"
+      class="col-xs-3 col-sm-4"
       v-for="item in countries"
       :key="item.label"
       @change="change($event, item)"
@@ -32,8 +32,11 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .row {
   justify-content: center;
+}
+.check {
+  margin: 5px 3px;
 }
 </style>

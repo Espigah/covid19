@@ -13,7 +13,8 @@ export default {
   mounted() {
     const options = {
       legend: {
-        display: false
+        display: false,
+        maintainAspectRatio: false
       }
     };
     this.renderChart(this.chartData, options);
@@ -25,3 +26,7 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+</style>

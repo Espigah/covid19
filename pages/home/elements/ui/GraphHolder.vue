@@ -1,8 +1,11 @@
 <template>
   <div id="parent border">
     <h3>{{ title }}</h3>
-
-    <slot class="slot"></slot>
+    <div
+      class="chart-container"
+    >
+      <slot class="slot"></slot>
+    </div>
   </div>
 </template>
 
@@ -24,9 +27,5 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
-  position: relative;
-  height: 40vh;
-  width: 80vw;
-}
+
 </style>

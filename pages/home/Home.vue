@@ -14,11 +14,7 @@
           @remove="removeCountry($event)"
         ></country-list>
 
-        <graph-area
-          :countryAddedEvent="countryAddedEvent"
-          :countryRemovedEvent="countryRemovedEvent"
-        >
-        </graph-area>
+        <graph-area class="graph-area"> </graph-area>
       </div>
     </div>
     <div class="container">
@@ -89,10 +85,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
+}
+
+.graph-area {
+  margin-bottom: 10px;
 }
 
 .centred {
@@ -109,9 +109,7 @@ export default {
   padding: 20px 35px;
 }
 
-.check {
-  margin: 5px 3px;
-}
+
 
 .sticky {
   position: -webkit-sticky; /* Safari */
