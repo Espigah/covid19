@@ -1,6 +1,7 @@
 <template>
   <div id="parent border">
     <h3>{{ title }}</h3>
+
     <slot class="slot"></slot>
   </div>
 </template>
@@ -21,3 +22,11 @@ export default {
   methods: {}
 };
 </script>
+
+<style scoped>
+.wrapper {
+  position: relative;
+  height: 40vh;
+  width: 80vw;
+}
+</style>

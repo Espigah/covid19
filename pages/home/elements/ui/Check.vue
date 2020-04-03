@@ -1,5 +1,9 @@
 <template>
-  <div class="check rounded border row justify-content-between" :class="$mq">
+  <div
+    class="check rounded border row justify-content-between"
+    :class="$mq"
+    :style='{ borderColor: color + "!important"  }'
+  >
     <div class="input-area" @click="change($event)">
       <input class="form-check-input" type="checkbox" value="option1" checked />
       <span class="label">{{ country.substring(0, 3).toUpperCase() }}</span>
@@ -31,7 +35,8 @@ export default {
     };
   },
   props: {
-    country: String
+    country: String,
+    color: String
   },
   mounted() {},
   methods: {
@@ -51,6 +56,9 @@ export default {
 <style lang="scss">
 .check {
   font-size: 12px;
+  max-width: 145px;
+  border-width: 5px !important;
+  padding-bottom: 5px;
   &.xs {
     font-size: 10px;
     min-height: 20px;

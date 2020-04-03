@@ -65,7 +65,7 @@ export default {
   methods: {
     getCountries() {
       this.dropdownOptions = [];
-      debugger
+      debugger;
       Api.countries.get().then(data => {
         console.log("Total Countries loaded: " + data.length);
         this.dropdownOptions = data.filter(a => !a.province);
@@ -77,12 +77,23 @@ export default {
       if (index > -1) {
         return;
       }
-      this.countryList.push($event);
-      this.countryAddedEvent = $event;
+      const data  = this.createCountryData($event);
+      this.countryList.push(data);
+      this.countryAddedEvent = data;
     },
     removeCountry($event) {
       this.countryList = this.countryList.filter(x => x.label !== $event);
       this.countryRemovedEvent = $event;
+    },
+    createCountryData(data) {
+      let countryData = {
+        ...data,
+        color: this.randomColor()
+      };
+      return countryData
+    },
+    randomColor() {
+      return "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88";
     }
   }
 };

@@ -6,6 +6,7 @@
       :key="item.label"
       @change="change($event, item)"
       @remove="$emit('remove', $event, item)"
+      :color="item.color"
       :country="item.label"
     />
   </div>
@@ -24,8 +25,7 @@ export default {
       required: true
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     change($event, item) {
       this.$emit("change", { $event, label: item });

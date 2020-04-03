@@ -1,11 +1,27 @@
 <template>
   <div class="container">
-    <input type="radio" id="from_beg" value="all_data" v-model="starting_at"  @click="changeStartPoint($event)">
-    <label for="from_beg">All data</label>
-    <br>
-    <input type="radio" id="from_d_zero" value="day_zero" v-model="starting_at" @click="changeStartPoint($event)">
-    <label for="from_d_zero">Day Zero</label>
-    <br>
+    <div class="raw">
+      <div class="form-check form-check-inline">
+        <input
+          type="radio"
+          id="from_beg"
+          value="all_data"
+          v-model="starting_at"
+          @click="changeStartPoint($event)"
+        />
+        <label class="form-check-label" for="from_beg">All data</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          type="radio"
+          id="from_d_zero"
+          value="day_zero"
+          v-model="starting_at"
+          @click="changeStartPoint($event)"
+        />
+        <label class="form-check-label" for="from_d_zero">Day Zero</label>
+      </div>
+    </div>
     <graph-holder :title="'Cases Confirmed'">
       <bar :chart-data="datacollectionConfirmed" v:on> </bar>
     </graph-holder>
@@ -56,9 +72,8 @@ export default {
   },
   watch: {
     countryAddedEvent(value) {
-      let color = this.randomColor();
-      this.loadCountryConfirmedData(value, color);
-      this.loadCountryDeathData(value, color);
+      this.loadCountryConfirmedData(value, value.color);
+      this.loadCountryDeathData(value, value.color);
       this.countriesList.push(value.label);
     },
     countryRemovedEvent(value) {
@@ -69,9 +84,9 @@ export default {
   },
   mounted() {},
   methods: {
-    changeStartPoint($event){
-        console.log($event)
-        console.log(this.starting_at)
+    changeStartPoint($event) {
+      console.log($event);
+      console.log(this.starting_at);
     },
     loadCountryConfirmedData(countryData, color) {
       this.loadCountryData(countryData, "confirmed", color);
@@ -141,21 +156,21 @@ export default {
         datasets: this.datacollectionDeath.datasets
       };
     },
-    randomColor() {
-      return "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88";
-    },
     extractData(countryData) {
-      var data = [];
-      for (var i in countryData) {
-        data.push(countryData[i].total);
-      }
+      const data = countryData.map(x => x.total);
       return data;
     },
     extractLabels(countryData) {
-      var labels = [];
-      for (var i in countryData) {
-        labels.push(countryData[i].date);
-      }
+      const labels = countryData
+        .map(x => x.date)
+        .map(x =>
+          x
+            .toISOString()
+            .substr(0, 10)
+            .split("-")
+            .reverse()
+            .join("/")
+        );
       return labels;
     },
     ...mapMutations({
