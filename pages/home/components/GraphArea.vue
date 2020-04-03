@@ -43,7 +43,9 @@ export default {
     Bar
   },
   computed: mapGetters({
-    countries: "country/countries"
+    countries: "country/countries",
+    lastAdded: "country/lastAdded",
+    lastRemoved: "country/lastRemoved"
   }),
   data() {
     return {
@@ -55,31 +57,18 @@ export default {
         labels: [],
         datasets: []
       },
-      countriesList: [],
       countriesDayZero: {},
       starting_at: "all_data"
     };
   },
-  props: {
-    countryAddedEvent: {
-      type: Object,
-      required: true
-    },
-    countryRemovedEvent: {
-      type: String,
-      required: true
-    }
-  },
+  props: {},
   watch: {
-    countryAddedEvent(value) {
-      this.loadCountryConfirmedData(value, value.color);
-      this.loadCountryDeathData(value, value.color);
-      this.countriesList.push(value.label);
+    lastAdded(current, previous) {
+      this.loadCountryConfirmedData(current, current.color);
+      this.loadCountryDeathData(current, current.color);
     },
-    countryRemovedEvent(value) {
-      const index = this.countriesList.findIndex(x => x == value);
-      this.countriesList.splice(index, 1);
-      this.removeCountryFromGraphs(index);
+    lastRemoved(current, previous) {
+      this.removeCountryFromGraphs(current.index);
     }
   },
   mounted() {},
@@ -172,10 +161,7 @@ export default {
             .join("/")
         );
       return labels;
-    },
-    ...mapMutations({
-      addCountry: "country/add"
-    })
+    }
   }
 };
 </script>

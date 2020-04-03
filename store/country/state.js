@@ -1,3 +1,5 @@
 export default () => ({
-  list: [1]
+  list: [],
+  lastAdded: null,
+  lastRemoved: null
 });

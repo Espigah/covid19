@@ -2,7 +2,7 @@
   <div class="row sticky">
     <check
       class="col-3 col-sm-3"
-      v-for="item in list"
+      v-for="item in countries"
       :key="item.label"
       @change="change($event, item)"
       @remove="$emit('remove', $event, item)"
@@ -14,21 +14,20 @@
 
 <script>
 import Check from "./Check.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     Check
   },
-  props: {
-    list: {
-      type: Array,
-      required: true
-    }
-  },
+  props: {},
+  computed: mapGetters({
+    countries: "country/countries"
+  }),
   mounted() {},
   methods: {
     change($event, item) {
-      this.$emit("change", { $event, label: item });
+      this.$emit("change", { check: $event, ...item });
     }
   }
 };

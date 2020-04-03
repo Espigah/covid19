@@ -10,7 +10,7 @@
         ></dropdown>
 
         <country-list
-          :list="countryList"
+          @change="onContryListChange($event)"
           @remove="removeCountry($event)"
         ></country-list>
 
@@ -40,6 +40,8 @@ import Introduction from "./elements/ui/Introduction.vue";
 import Info from "./elements/ui/Info.vue";
 import FooterContent from "./elements/ui/FooterContent.vue";
 
+import { mapMutations, mapGetters } from "vuex";
+
 export default {
   components: {
     CountryList,
@@ -63,38 +65,26 @@ export default {
   },
   created() {},
   methods: {
-    getCountries() {
+    async getCountries() {
       this.dropdownOptions = [];
-      debugger;
-      Api.countries.get().then(data => {
+      try {
+        const data = await Api.countries.get();
         console.log("Total Countries loaded: " + data.length);
         this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
-      });
-    },
-    addCountry($event) {
-      const index = this.countryList.findIndex(x => x.label == $event.label);
-      if (index > -1) {
-        return;
+      } catch (error) {
+        console.log(error);
       }
-      const data  = this.createCountryData($event);
-      this.countryList.push(data);
-      this.countryAddedEvent = data;
     },
-    removeCountry($event) {
-      this.countryList = this.countryList.filter(x => x.label !== $event);
-      this.countryRemovedEvent = $event;
+    onContryListChange($event) {
+      const index = this.countryList.findIndex(x => x.label == $event.label);
+      let data = this.countryList[index] || {};
+      data.hidden = !$event.check; //se o checkbox estiver ativo o grafico sera mostrado
     },
-    createCountryData(data) {
-      let countryData = {
-        ...data,
-        color: this.randomColor()
-      };
-      return countryData
-    },
-    randomColor() {
-      return "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88";
-    }
+    ...mapMutations({
+      addCountry: "country/add",
+      removeCountry: "country/remove"
+    })
   }
 };
 </script>
