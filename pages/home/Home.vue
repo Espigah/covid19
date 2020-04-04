@@ -46,14 +46,14 @@ export default {
     GraphArea,
     Introduction,
     Info,
-    FooterContent
+    FooterContent,
   },
   data() {
     return {
       countryList: [],
       countryAddedEvent: {},
       countryRemovedEvent: "",
-      dropdownOptions: []
+      dropdownOptions: [],
     };
   },
   mounted() {
@@ -66,29 +66,28 @@ export default {
       try {
         const data = await Api.countries.get();
         console.log("Total Countries loaded: " + data.length);
-        this.dropdownOptions = data.filter(a => !a.province);
+        this.dropdownOptions = data.filter((a) => !a.province);
         this.$forceUpdate();
       } catch (error) {
         console.log(error);
       }
     },
     onContryListChange($event) {
-      const index = this.countryList.findIndex(x => x.label == $event.label);
+      const index = this.countryList.findIndex((x) => x.label == $event.label);
       let data = this.countryList[index] || {};
       data.hidden = !$event.check; //se o checkbox estiver ativo o grafico sera mostrado
     },
     ...mapMutations({
       addCountry: "country/add",
-      removeCountry: "country/remove"
-    })
-  }
+      removeCountry: "country/remove",
+    }),
+  },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   margin: 0 auto;
-  min-height: 100vh;
 }
 
 .graph-area {
@@ -104,7 +103,6 @@ export default {
 
 .container-content {
   position: relative;
-  top: 50px;
   padding: 20px 35px;
 }
 
@@ -112,9 +110,10 @@ export default {
   position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
-  background: #ffffffe6;
+  background: rgba($color: #fff, $alpha: 0.7);
   padding-bottom: 10px;
   padding-top: 10px;
+  z-index: 10;
 }
 
 .container-fotter {

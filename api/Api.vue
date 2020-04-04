@@ -23,7 +23,7 @@ class Api {
   pushToArray(element, date, value) {
     element.push({
       date: date,
-      total: value
+      total: value,
     });
   }
 
@@ -35,7 +35,7 @@ class Api {
     let url = baseURL + "/country/" + country + "/status/" + type;
     return axios
       .get(url)
-      .then(response => {
+      .then((response) => {
         let nextDate = new Date("2020-01-22T00:00:00Z");
         let day = 60 * 60 * 24 * 1000;
         var data = response.data;
@@ -53,7 +53,7 @@ class Api {
         }
         return countryData;
       })
-      .catch(e => {
+      .catch((e) => {
         alert(e);
         console.log(e);
         return Promise.reject(e);

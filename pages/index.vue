@@ -6,8 +6,8 @@
 import Home from "./home/Home.vue";
 export default {
   components: {
-    Home
-  }
+    Home,
+  },
 };
 </script>
 
@@ -17,4 +17,11 @@ export default {
 // Import Bootstrap and BootstrapVue source SCSS files
 //@import "~bootstrap/scss/bootstrap.scss";
 //@import "~bootstrap-vue/src/index.scss";
+
+h3,
+.h3 {
+  @media (max-width: 390px) {
+    font-size: 1rem;
+  }
+}
 </style>

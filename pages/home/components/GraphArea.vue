@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="raw">
+    <div class="row justify-content-center">
       <div class="form-check form-check-inline">
         <input
           type="radio"
@@ -22,13 +22,13 @@
         <label class="form-check-label" for="from_d_zero">Day Zero</label>
       </div>
     </div>
-    <div class="raw">
-      <div class="col">
+    <div class="row">
+      <div class="col-sm-6">
         <graph-holder :title="'Cases Confirmed'">
           <bar :chart-data="datacollectionConfirmed" v:on> </bar>
         </graph-holder>
       </div>
-      <div class="col">
+      <div class="col-sm-6">
         <graph-holder :title="'Deaths'">
           <bar :chart-data="datacollectionDeath"> </bar>
         </graph-holder>
@@ -46,25 +46,25 @@ import { mapMutations, mapGetters } from "vuex";
 export default {
   components: {
     GraphHolder,
-    Bar
+    Bar,
   },
   computed: mapGetters({
     countries: "country/countries",
     lastAdded: "country/lastAdded",
-    lastRemoved: "country/lastRemoved"
+    lastRemoved: "country/lastRemoved",
   }),
   data() {
     return {
       datacollectionDeath: {
         labels: [],
-        datasets: []
+        datasets: [],
       },
       datacollectionConfirmed: {
         labels: [],
-        datasets: []
+        datasets: [],
       },
       countriesDayZero: {},
-      starting_at: "all_data"
+      starting_at: "all_data",
     };
   },
   props: {},
@@ -75,7 +75,7 @@ export default {
     },
     lastRemoved(current, previous) {
       this.removeCountryFromGraphs(current.index);
-    }
+    },
   },
   mounted() {},
   methods: {
@@ -83,42 +83,55 @@ export default {
       console.log($event);
       console.log(this.starting_at);
     },
-    loadCountryConfirmedData(countryData, color) {
-      this.loadCountryData(countryData, "confirmed", color);
-    },
-    loadCountryDeathData(countryData, color) {
-      this.loadCountryData(countryData, "deaths", color);
-    },
-    loadCountryData(countryData, type, color) {
-      let datacollection =
-        type == "confirmed"
-          ? this.datacollectionConfirmed
-          : this.datacollectionDeath;
-      Api.getCountryData(countryData.slug, countryData.province, type).then(
-        data => {
-          let graphData = this.addDataToGraph(
-            datacollection,
-            data,
-            countryData.label,
-            color
-          );
-          if (type == "confirmed") {
-            this.datacollectionConfirmed = graphData;
-            let dayZero = this.calculateCountryDayZero(data);
-            this.countriesDayZero[countryData.slug] = dayZero;
-            console.log(countryData.slug + ": " + dayZero);
-          } else {
-            this.datacollectionDeath = graphData;
-          }
-        }
+    async loadCountryConfirmedData(countryData, color) {
+      const { data, addDataToGraph } = await this.getCountryData2(
+        Api.getCountryConfirmedData.bind(Api),
+        countryData,
+        color
       );
+
+      this.datacollectionConfirmed = addDataToGraph(
+        this.datacollectionConfirmed
+      );
+      let dayZero = this.calculateCountryDayZero(data);
+      this.countriesDayZero[countryData.slug] = dayZero;
+      console.log(countryData.slug + ": " + dayZero);
+    },
+    async loadCountryDeathData(countryData, color) {
+      const { data, addDataToGraph } = await this.getCountryData2(
+        Api.getCountryDeathData.bind(Api),
+        countryData,
+        color
+      );
+
+      this.datacollectionDeath = addDataToGraph(this.datacollectionDeath);
+    },
+    async getCountryData2(action, countryData, color) {
+      try {
+        
+        const data = await action(countryData.slug, countryData.province);
+
+        return {
+          data,
+          addDataToGraph: (collection) => {
+            return this.addDataToGraph(
+              collection,
+              data,
+              countryData.label,
+              color
+            );
+          },
+        };
+      } catch (e) {
+        console.error(e);
+      }
     },
     addDataToGraph(graphData, countryData, label, color) {
       var labels = this.extractLabels(countryData);
       var dataset = {
         label: label,
         backgroundColor: color,
-        data: this.extractData(countryData)
+        data: this.extractData(countryData),
       };
 
       let datasets = graphData.datasets;
@@ -126,7 +139,7 @@ export default {
 
       return {
         labels: labels,
-        datasets: datasets
+        datasets: datasets,
       };
     },
     calculateCountryDayZero(countryData) {
@@ -142,23 +155,23 @@ export default {
       this.datacollectionConfirmed.datasets.splice(index, 1);
       this.datacollectionConfirmed = {
         labels: this.datacollectionConfirmed.labels,
-        datasets: this.datacollectionConfirmed.datasets
+        datasets: this.datacollectionConfirmed.datasets,
       };
 
       this.datacollectionDeath.datasets.splice(index, 1);
       this.datacollectionDeath = {
         labels: this.datacollectionDeath.labels,
-        datasets: this.datacollectionDeath.datasets
+        datasets: this.datacollectionDeath.datasets,
       };
     },
     extractData(countryData) {
-      const data = countryData.map(x => x.total);
+      const data = countryData.map((x) => x.total);
       return data;
     },
     extractLabels(countryData) {
       const labels = countryData
-        .map(x => x.date)
-        .map(x =>
+        .map((x) => x.date)
+        .map((x) =>
           x
             .toISOString()
             .substr(0, 10)
@@ -167,8 +180,8 @@ export default {
             .join("/")
         );
       return labels;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss"></style>

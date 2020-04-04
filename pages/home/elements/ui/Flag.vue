@@ -1,7 +1,12 @@
 <template>
-   <gb-flag
-    code="fr"
-    size="small"
-  />
+  <gb-flag :code="code" size="small" /> 
 </template>
-<style></style>
+
+<script>
+export default {
+  props: {
+    code: String,
+  },
+};
+</script>
+<style lang="scss"></style>

@@ -2,12 +2,16 @@
   <div
     class="check rounded border row justify-content-between"
     :class="$mq"
-    :style='{ borderColor: color + "!important"  }'
+    :style="{ borderColor: color + '!important' }"
   >
     <div class="input-area" @click="change($event)">
       <input class="form-check-input" type="checkbox" value="option1" checked />
       <span class="label">{{ country.substring(0, 3).toUpperCase() }}</span>
-      <flag v-if="$mq != 'sm' && $mq != 'xs'"> </flag>
+      <flag
+        v-if="$mq != 'sm' && $mq != 'xs'"
+        :code="country.substring(0, 2).toLowerCase()"
+      >
+      </flag>
     </div>
     <div>
       <button
@@ -27,16 +31,16 @@ import Flag from "./Flag.vue";
 
 export default {
   components: {
-    Flag
+    Flag,
   },
   data() {
     return {
-      checked: true
+      checked: true,
     };
   },
   props: {
     country: String,
-    color: String
+    color: String,
   },
   mounted() {},
   methods: {
@@ -49,8 +53,8 @@ export default {
       }
 
       this.$emit("change", this.checked);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -59,6 +63,7 @@ export default {
   max-width: 145px;
   border-width: 5px !important;
   padding-bottom: 5px;
+  background: rgba($color: #fff, $alpha: .7);
   &.xs {
     font-size: 10px;
     min-height: 20px;
