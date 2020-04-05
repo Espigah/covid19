@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h4>Covid19</h4>
+    <h4>{{ $t("info_title") }}</h4>
     <p>
-      Lorem Ipsum Lorem ipsum is placeholder text commonly used in the graphic,
-      print, and publishing industries for previewing layouts and visual mockups
+      {{ $t("info_description") }}
     </p>
   </div>
 </template>

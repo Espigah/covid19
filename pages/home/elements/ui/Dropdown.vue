@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-dropdown id="dropdown" :text="prompt" class="m-md-2">
+    <b-dropdown id="dropdown" :text="!prompt ? $t('dropdown') : prompt" class="m-md-2">
       <input
         type="text"
         placeholder="Search.."
@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      prompt: "Selecione o país"
+      prompt: ""
     };
   },
   mounted() {},

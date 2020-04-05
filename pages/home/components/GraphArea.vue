@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="display:none">
       <div class="form-check form-check-inline">
         <input
           type="radio"
@@ -24,12 +24,12 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <graph-holder :title="'Cases Confirmed'">
+        <graph-holder :title="$t('graph_cases_confirmed')">
           <bar :chart-data="datacollectionConfirmed" v:on> </bar>
         </graph-holder>
       </div>
       <div class="col-sm-6">
-        <graph-holder :title="'Deaths'">
+        <graph-holder :title="$t('graph_deaths')">
           <bar :chart-data="datacollectionDeath"> </bar>
         </graph-holder>
       </div>
@@ -108,7 +108,6 @@ export default {
     },
     async getCountryData2(action, countryData, color) {
       try {
-        
         const data = await action(countryData.slug, countryData.province);
 
         return {

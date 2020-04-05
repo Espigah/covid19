@@ -7,30 +7,47 @@
         <!-- Grid row -->
         <div class="row">
           <!-- Grid column -->
-          <div class="col-md-6 mt-md-0 mt-3">
+          <div class="col">
             <!-- Content -->
-            <h5 class="text-uppercase font-weight-bold">Footer text 1</h5>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita
-              sapiente sint, nulla, nihil repudiandae commodi voluptatibus
-              corrupti animi sequi aliquid magnam debitis, maxime quam
-              recusandae harum esse fugiat. Itaque, culpa?
-            </p>
-          </div>
-          <!-- Grid column -->
-
-          <hr class="clearfix w-100 d-md-none pb-3" />
-
-          <!-- Grid column -->
-          <div class="col-md-6 mb-md-0 mb-3">
-            <!-- Content -->
-            <h5 class="text-uppercase font-weight-bold">Footer text 2</h5>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio
-              deserunt fuga perferendis modi earum commodi aperiam temporibus
-              quod nulla nesciunt aliquid debitis ullam omnis quos ipsam,
-              aspernatur id excepturi hic.
-            </p>
+            <h5 class="text-uppercase font-weight-bold">{{ $t("links") }}</h5>
+            <ul>
+              <li>
+                <a
+                  href="https://pt.wikipedia.org/wiki/COVID-19/"
+                  target="_blank"
+                >
+                  wikipedia
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.worldometers.info/coronavirus/?utm_campaign=homeAdvegas1?"
+                  target="_blank"
+                >
+                  worldometers.info
+                </a>
+              </li>
+              <li>
+                <a
+                  href=" https://ourworldindata.org/coronavirus-data#"
+                  target="_blank"
+                >
+                  ourworldindata
+                </a>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a href="https://api.covid19api.com/" target="_blank">
+                  api.covid19api
+                </a>
+              </li>
+              <li>
+                <a href="https://corona-stats.online/" target="_blank">
+                  corona-stats.online
+                </a>
+              </li>
+            </ul>
           </div>
           <!-- Grid column -->
         </div>
@@ -39,9 +56,9 @@
       <!-- Footer Text -->
 
       <!-- Copyright -->
-      <div class="footer-copyright text-center py-3">
+      <div class="footer-copyright text-center py-3 ">
         © 2020 Copyright:
-        <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+        <a href="https://github.com/Espigah/covid19" target="_blank"> GIT</a>
       </div>
       <!-- Copyright -->
     </footer>

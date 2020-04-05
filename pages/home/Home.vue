@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>    
     <navbar />
     <div class="container centred">
       <div class="col container-content">
@@ -20,7 +20,7 @@
     <div class="container container-footer">
       <div class="row">
         <info />
-        <footer-content />
+        <footer-content class="w-100" />
       </div>
     </div>
   </div>
