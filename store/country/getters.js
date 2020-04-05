@@ -7,5 +7,8 @@ export default {
   },
   lastRemoved(state) {
     return state.lastRemoved;
-  }
+  },
+  hidden(state) {
+    return state.hidden;
+  },
 };

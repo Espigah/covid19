@@ -1,5 +1,5 @@
 <template>
-  <div>    
+  <div>
     <navbar />
     <div class="container centred">
       <div class="col container-content">
@@ -50,12 +50,12 @@ export default {
   },
   data() {
     return {
-      countryList: [],
-      countryAddedEvent: {},
-      countryRemovedEvent: "",
       dropdownOptions: [],
     };
   },
+  computed: mapGetters({
+    countries: "country/countries",
+  }),
   mounted() {
     this.getCountries();
   },
@@ -73,13 +73,14 @@ export default {
       }
     },
     onContryListChange($event) {
-      const index = this.countryList.findIndex((x) => x.label == $event.label);
-      let data = this.countryList[index] || {};
-      data.hidden = !$event.check; //se o checkbox estiver ativo o grafico sera mostrado
+      const index = this.countries.findIndex((x) => x.label == $event.label);
+      let data = this.countries[index] || {};
+      this.hiddenCountry({ ...data, hidden: !$event.check, index });
     },
     ...mapMutations({
       addCountry: "country/add",
       removeCountry: "country/remove",
+      hiddenCountry: "country/hidden",
     }),
   },
 };

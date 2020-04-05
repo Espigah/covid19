@@ -52,6 +52,7 @@ export default {
     countries: "country/countries",
     lastAdded: "country/lastAdded",
     lastRemoved: "country/lastRemoved",
+    hidden: "country/hidden",
   }),
   data() {
     return {
@@ -69,6 +70,14 @@ export default {
   },
   props: {},
   watch: {
+    hidden({ hidden, index }, previous) {
+      try {
+        this.datacollectionDeath.datasets[index].hidden = hidden;
+        this.datacollectionConfirmed.datasets[index].hidden = hidden;
+      } catch (error) {
+        console.warn("[ hidden ]", error);
+      }
+    },
     lastAdded(current, previous) {
       this.loadCountryConfirmedData(current, current.color);
       this.loadCountryDeathData(current, current.color);
@@ -84,7 +93,7 @@ export default {
       console.log(this.starting_at);
     },
     async loadCountryConfirmedData(countryData, color) {
-      const { data, addDataToGraph } = await this.getCountryData2(
+      const { countryInfo, addDataToGraph } = await this.getCountryData2(
         Api.getCountryConfirmedData.bind(Api),
         countryData,
         color
@@ -93,12 +102,12 @@ export default {
       this.datacollectionConfirmed = addDataToGraph(
         this.datacollectionConfirmed
       );
-      let dayZero = this.calculateCountryDayZero(data);
+      let dayZero = this.calculateCountryDayZero(countryInfo);
       this.countriesDayZero[countryData.slug] = dayZero;
       console.log(countryData.slug + ": " + dayZero);
     },
     async loadCountryDeathData(countryData, color) {
-      const { data, addDataToGraph } = await this.getCountryData2(
+      const { countryInfo, addDataToGraph } = await this.getCountryData2(
         Api.getCountryDeathData.bind(Api),
         countryData,
         color
@@ -108,14 +117,17 @@ export default {
     },
     async getCountryData2(action, countryData, color) {
       try {
-        const data = await action(countryData.slug, countryData.province);
+        const countryInfo = await action(
+          countryData.slug,
+          countryData.province
+        );
 
         return {
-          data,
+          countryInfo,
           addDataToGraph: (collection) => {
             return this.addDataToGraph(
               collection,
-              data,
+              countryInfo,
               countryData.label,
               color
             );
@@ -125,12 +137,16 @@ export default {
         console.error(e);
       }
     },
-    addDataToGraph(graphData, countryData, label, color) {
-      var labels = this.extractLabels(countryData);
+    addDataToGraph(graphData, countryInfo, label, color) {
+      var labels = this.extractLabels(countryInfo);
       var dataset = {
         label: label,
         backgroundColor: color,
-        data: this.extractData(countryData),
+        hidden: false,
+        data: this.extractData(countryInfo),
+        change: function() {
+          this.hidden = true;
+        },
       };
 
       let datasets = graphData.datasets;

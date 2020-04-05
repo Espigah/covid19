@@ -5,7 +5,7 @@ const randomColor = () => {
 export default {
   add(state, data) {
     let list = state.list;
-    const index = list.findIndex(x => x.label == data.label);
+    const index = list.findIndex((x) => x.label == data.label);
     if (index > -1) {
       return;
     }
@@ -16,11 +16,15 @@ export default {
 
   remove(state, countryLabel) {
     let list = state.list;
-    const index = list.findIndex(x => x.label == countryLabel);
+    const index = list.findIndex((x) => x.label == countryLabel);
     if (index < 0) {
       return;
     }
     var removed = list.splice(index, 1);
     state.lastRemoved = { ...removed[0], index };
-  }
+  },
+
+  hidden(state, { hidden, label, index }) {
+    state.hidden = { hidden, label, index };
+  },
 };
