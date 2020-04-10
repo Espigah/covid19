@@ -16,7 +16,7 @@ export default {
 
   remove(state, countryLabel) {
     let list = state.list;
-    const index = list.findIndex((x) => x.label == countryLabel);
+    const index = list.findIndex((x) => x.label == countryLabel ||  x.iso2 == countryLabel);
     if (index < 0) {
       return;
     }
