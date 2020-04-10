@@ -3,11 +3,11 @@
     <check
       class="col-xs-3 col-sm-4"
       v-for="item in countries"
-      :key="item.label"
+      :key="item.country"
       @change="change($event, item)"
       @remove="$emit('remove', $event, item)"
       :color="item.color"
-      :country="item.label"
+      :country="item.iso2"
     />
   </div>
 </template>

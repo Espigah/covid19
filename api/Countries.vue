@@ -12,7 +12,9 @@ class Countries {
             return {
               country: country.Country,
               province: "",
-              slug: country.Slug
+              slug: country.Slug,
+              slug: country.Slug,
+              iso2: (country.ISO2 || "").toLowerCase()
             };
           });
 
