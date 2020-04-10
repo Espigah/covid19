@@ -42,7 +42,6 @@ export default {
     country: String,
     color: String
   },
-  mounted() {},
   methods: {
     change($event) {
       if ($event.target.type === "checkbox") {

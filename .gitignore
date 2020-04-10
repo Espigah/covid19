@@ -4,3 +4,6 @@ dist
 .vscode
 .nuxt
 dist
+jest-stare
+__test_result__
+coverage

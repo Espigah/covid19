@@ -24,7 +24,7 @@ export default {
   computed: mapGetters({
     countries: "country/countries"
   }),
-  mounted() {},
+  shallowMounted() {},
   methods: {
     change($event, item) {
       this.$emit("change", { check: $event, ...item });

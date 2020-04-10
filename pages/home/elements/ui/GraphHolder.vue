@@ -21,7 +21,7 @@ export default {
       requered: true
     }
   },
-  mounted() {},
+  shallowMounted() {},
   methods: {}
 };
 </script>
