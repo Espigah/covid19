@@ -13,7 +13,7 @@
         @keyup="filter()"
       />
       <b-dropdown-item
-        v-for="item in options"
+        v-for="item in orderedTranslatedOptions"
         :key="item.label"
         @click="change(item)"
         >{{ item.label }}</b-dropdown-item
@@ -32,10 +32,26 @@ export default {
       prompt: ""
     };
   },
-  mounted() {},
+  computed: {
+    orderedTranslatedOptions: function() {
+      const traslatedOptions = this.options.map(data => {
+        return { ...data, label: this.$t(data.country) };
+      });
+
+      return this.sort(traslatedOptions, "label");
+    }
+  },
   methods: {
+    sort(list, property) {
+      return list.sort((a, b) => {
+        var x = a[property].toLowerCase();
+        var y = b[property].toLowerCase();
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    },
     change(item) {
       this.prompt = item.label;
+      this.$ga.event("country", item.country, item.slug, 1);
       this.$emit("add", { ...item });
       this.$forceUpdate();
     },
@@ -59,7 +75,7 @@ export default {
 <style lang="scss">
 .dropdown {
   min-width: 300px;
-  &.tn{
+  &.tn {
     transform: translateX(-23%);
     min-width: 100vw;
   }

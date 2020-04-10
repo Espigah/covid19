@@ -6,33 +6,17 @@ class Countries {
     return axios
       .get("https://api.covid19api.com/countries")
       .then(response => {
-        let data = response.data;
-        let countries = [];
-        for (let i in data) {
-          let country = data[i];
-          if (!country.Country) {
-            continue;
-          }
-          countries.push({
-            label: country.Country,
-            province: "",
-            slug: country.Slug
-          });
-          /*
-          for (let j in country.Provinces) {
-            let province = country.Provinces[j];
-            if (!province) {
-              continue;
-            }
-            countries.push({
-              label: country.Country + " - " + province,
-              province: province,
+        const countries = response.data
+          .filter(x => x.Country)
+          .map(country => {
+            return {
+              country: country.Country,
+              province: "",
               slug: country.Slug
-            });
-          }
-          */
-        }
-        return countries;
+            };
+          });
+
+        return Object.freeze(countries);
       })
       .catch(e => {
         alert(e);
