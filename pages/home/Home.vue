@@ -2,7 +2,7 @@
   <div>
     <navbar />
     <div class="container centred">
-      <div class="col container-content">
+      <div class="col container-content" :class="$mq">
         <introduction />
         <dropdown
           :options="dropdownOptions"
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="container container-footer">
-      <div class="row">
+      <div class="row row-footer" :class="$mq">
         <info />
         <footer-content class="w-100" />
       </div>
@@ -46,15 +46,15 @@ export default {
     GraphArea,
     Introduction,
     Info,
-    FooterContent,
+    FooterContent
   },
   data() {
     return {
-      dropdownOptions: [],
+      dropdownOptions: []
     };
   },
   computed: mapGetters({
-    countries: "country/countries",
+    countries: "country/countries"
   }),
   mounted() {
     this.getCountries();
@@ -66,23 +66,23 @@ export default {
       try {
         const data = await Api.countries.get();
         console.log("Total Countries loaded: " + data.length);
-        this.dropdownOptions = data.filter((a) => !a.province);
+        this.dropdownOptions = data.filter(a => !a.province);
         this.$forceUpdate();
       } catch (error) {
         console.log(error);
       }
     },
     onContryListChange($event) {
-      const index = this.countries.findIndex((x) => x.label == $event.label);
+      const index = this.countries.findIndex(x => x.label == $event.label);
       let data = this.countries[index] || {};
       this.hiddenCountry({ ...data, hidden: !$event.check, index });
     },
     ...mapMutations({
       addCountry: "country/add",
       removeCountry: "country/remove",
-      hiddenCountry: "country/hidden",
-    }),
-  },
+      hiddenCountry: "country/hidden"
+    })
+  }
 };
 </script>
 
@@ -105,6 +105,10 @@ export default {
 .container-content {
   position: relative;
   padding: 20px 35px;
+  &.tn,
+  &.xs {
+    padding: 15px;
+  }
 }
 
 .sticky {
@@ -119,5 +123,11 @@ export default {
 
 .container-fotter {
   margin-top: 35px;
+}
+.row-footer {
+  &.tn,
+  &.xs {
+    padding: 0 20px;
+  }
 }
 </style>

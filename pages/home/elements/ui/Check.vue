@@ -4,7 +4,7 @@
     :class="$mq"
     :style="{ borderColor: color + '!important' }"
   >
-    <div class="input-area" @click="change($event)">
+    <div class="input-area" @click="change($event)" :class="$mq">
       <input class="form-check-input" type="checkbox" value="option1" checked />
       <span class="label">{{ country.substring(0, 3).toUpperCase() }}</span>
       <flag
@@ -31,16 +31,16 @@ import Flag from "./Flag.vue";
 
 export default {
   components: {
-    Flag,
+    Flag
   },
   data() {
     return {
-      checked: true,
+      checked: true
     };
   },
   props: {
     country: String,
-    color: String,
+    color: String
   },
   mounted() {},
   methods: {
@@ -53,8 +53,8 @@ export default {
       }
 
       this.$emit("change", this.checked);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -63,11 +63,13 @@ export default {
   max-width: 145px;
   border-width: 5px !important;
   padding-bottom: 5px;
-  background: rgba($color: #fff, $alpha: .7);
+  background: rgba($color: #fff, $alpha: 0.7);
+  &.tn,
   &.xs {
     font-size: 10px;
     min-height: 20px;
     padding-right: 2px;
+    width: 100px;
   }
   &.sm {
     font-size: 12px;
@@ -83,6 +85,7 @@ export default {
   }
 }
 .label {
+  &.tn,
   &.xs,
   &.sm {
     line-height: 22px;
@@ -95,5 +98,10 @@ export default {
 .input-area {
   margin-left: 15px;
   cursor: pointer;
+  &.tn,
+  &.xs {
+    height: 0px;
+    line-height: 29px;
+  }
 }
 </style>

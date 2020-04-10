@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Footer -->
-    <footer class="page-footer font-small teal pt-4">
+    <footer class="page-footer font-small teal pt-4" :class="$mq">
       <!-- Footer Text -->
       <div class="container-fluid text-center text-md-left">
         <!-- Grid row -->
@@ -65,3 +65,14 @@
     <!-- Footer -->
   </div>
 </template>
+
+<style scoped lang="scss">
+.page-footer {
+  &.tn,
+  &.xs {
+    li {
+      text-align: left;
+    }
+  }
+}
+</style>

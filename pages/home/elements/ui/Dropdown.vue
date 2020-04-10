@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-dropdown id="dropdown" :text="!prompt ? $t('dropdown') : prompt" class="m-md-2">
+    <b-dropdown
+      id="dropdown"
+      :text="!prompt ? $t('dropdown') : prompt"
+      class="m-md-2"
+      :class="$mq"
+    >
       <input
         type="text"
         placeholder="Search.."
@@ -54,6 +59,13 @@ export default {
 <style lang="scss">
 .dropdown {
   min-width: 300px;
+  &.tn{
+    transform: translateX(-23%);
+    min-width: 100vw;
+  }
+  &.xs {
+    min-width: 10vw;
+  }
   button {
     background: black;
     &:hover {
