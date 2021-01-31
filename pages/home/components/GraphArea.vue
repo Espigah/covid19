@@ -104,7 +104,6 @@ export default {
       );
       let dayZero = this.calculateCountryDayZero(countryInfo);
       this.countriesDayZero[countryData.slug] = dayZero;
-      console.log(countryData.slug + ": " + dayZero);
     },
     async loadCountryDeathData(countryData, color) {
       const { countryInfo, addDataToGraph } = await this.getCountryData2(

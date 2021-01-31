@@ -28,7 +28,7 @@ class Api {
   }
 
   getCountryData(country, province, type) {
-    let baseURL = "https://api.covid19api.com/";
+    let baseURL = "https://api.covid19api.com";
     if (province == "") {
       baseURL += "/total";
     }
