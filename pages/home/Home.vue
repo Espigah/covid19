@@ -4,15 +4,9 @@
     <div class="container centred">
       <div class="col container-content" :class="$mq">
         <introduction />
-        <dropdown
-          :options="dropdownOptions"
-          @add="addCountry($event)"
-        ></dropdown>
+        <dropdown :options="dropdownOptions" @add="addCountry($event)"></dropdown>
 
-        <country-list
-          @change="onContryListChange($event)"
-          @remove="removeCountry($event)"
-        ></country-list>
+        <country-list @change="onContryListChange($event)" @remove="removeCountry($event)"></country-list>
 
         <graph-area class="graph-area"> </graph-area>
       </div>
@@ -27,16 +21,16 @@
 </template>
 
 <script>
-import Api from "../../api/Api.vue";
-import CountryList from "./elements/ui/CountryList.vue";
-import Dropdown from "./elements/ui/Dropdown.vue";
-import Navbar from "./elements/ui/Navbar.vue";
-import GraphArea from "./components/GraphArea.vue";
-import Introduction from "./elements/ui/Introduction.vue";
-import Info from "./elements/ui/Info.vue";
-import FooterContent from "./elements/ui/FooterContent.vue";
+import Api from '../../api/Api.vue';
+import CountryList from './elements/ui/CountryList.vue';
+import Dropdown from './elements/ui/Dropdown.vue';
+import Navbar from './elements/ui/Navbar.vue';
+import GraphArea from './components/GraphArea.vue';
+import Introduction from './elements/ui/Introduction.vue';
+import Info from './elements/ui/Info.vue';
+import FooterContent from './elements/ui/FooterContent.vue';
 
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -46,15 +40,15 @@ export default {
     GraphArea,
     Introduction,
     Info,
-    FooterContent
+    FooterContent,
   },
   data() {
     return {
-      dropdownOptions: []
+      dropdownOptions: [],
     };
   },
   computed: mapGetters({
-    countries: "country/countries"
+    countries: 'country/countries',
   }),
   mounted() {
     this.getCountries();
@@ -65,24 +59,28 @@ export default {
       this.dropdownOptions = [];
       try {
         const data = await Api.countries.get();
-        console.log("Total Countries loaded: " + data.length);
-        this.dropdownOptions = data.filter(a => !a.province);
+        console.log('Total Countries loaded: ' + data.length);
+        this.dropdownOptions = data.filter((a) => !a.province);
         this.$forceUpdate();
       } catch (error) {
         console.log(error);
       }
     },
     onContryListChange($event) {
-      const index = this.countries.findIndex(x => x.label == $event.label);
+      const index = this.countries.findIndex((x) => {
+        const value_a = x.slug || x.label;
+        const value_b = $event.slug || $event.label;
+        return value_a == value_b;
+      });
       let data = this.countries[index] || {};
       this.hiddenCountry({ ...data, hidden: !$event.check, index });
     },
     ...mapMutations({
-      addCountry: "country/add",
-      removeCountry: "country/remove",
-      hiddenCountry: "country/hidden"
-    })
-  }
+      addCountry: 'country/add',
+      removeCountry: 'country/remove',
+      hiddenCountry: 'country/hidden',
+    }),
+  },
 };
 </script>
 

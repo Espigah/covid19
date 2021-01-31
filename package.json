@@ -22,8 +22,10 @@
     "chart.js": "^2.9.3",
     "cross-env": "^5.2.0",
     "express": "^4.16.4",
+    "node-sass": "^5.0.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.8.1",
+    "sass-loader": "^10.1.1",
     "vue-analytics": "^5.22.1",
     "vue-chartjs": "^3.5.0"
   },
@@ -38,12 +40,10 @@
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.1.0",
-    "node-sass": "^4.13.1",
     "nodemon": "^1.18.9",
     "prettier": "^1.19.1",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^8.0.2",
     "vue-jest": "^4.0.0-0",
     "vue-mq": "^1.0.1"
   }

@@ -1,11 +1,19 @@
 const randomColor = () => {
-  return "#" + (((1 << 24) * Math.random()) | 0).toString(16) + "88";
+  return '#' + (((1 << 24) * Math.random()) | 0).toString(16) + '88';
+};
+
+const filter = (a) => {
+  return (b) => {
+    const value_a = a.slug || a.label;
+    const value_b = b.slug || b.label;
+    return value_a === value_b;
+  };
 };
 
 export default {
   add(state, data) {
     let list = state.list;
-    const index = list.findIndex((x) => x.label == data.label);
+    const index = list.findIndex(filter(data));
     if (index > -1) {
       return;
     }
@@ -14,13 +22,13 @@ export default {
     state.lastAdded = clone;
   },
 
-  remove(state, countryLabel) {
+  remove(state, data) {
     let list = state.list;
-    const index = list.findIndex((x) => x.label == countryLabel);
+    const index = list.findIndex(filter(data));
     if (index < 0) {
       return;
     }
-    var removed = list.splice(index, 1);
+    const removed = list.splice(index, 1);
     state.lastRemoved = { ...removed[0], index };
   },
 

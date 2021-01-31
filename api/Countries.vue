@@ -1,29 +1,31 @@
 <script>
-import axios from "axios";
+import axios from 'axios';
+import Continent from './Continent.vue';
 
 class Countries {
   get() {
     return axios
-      .get("https://api.covid19api.com/countries")
-      .then(response => {
+      .get('https://api.covid19api.com/countries')
+      .then((response) => {
         const countries = response.data
-          .filter(x => x.Country)
-          .map(country => {
+          .filter((x) => x.Country)
+          .map((country) => {
             return {
               country: country.Country,
-              province: "",
+              province: '',
               slug: country.Slug,
-              slug: country.Slug,
-              iso2: (country.ISO2 || "").toLowerCase()
+              iso2: (country.ISO2 || '').toLowerCase(),
+              continent: Continent.getType(country.Slug),
             };
           });
 
         return Object.freeze(countries);
       })
-      .catch(e => {
+      .catch((e) => {
         alert(e);
         console.log(e);
-        return Promise.reject(e);
+        //return Promise.reject(e);
+        return [{slug:'brazil'}]
       });
   }
 }

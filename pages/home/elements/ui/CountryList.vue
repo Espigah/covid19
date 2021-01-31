@@ -5,7 +5,7 @@
       v-for="item in countries"
       :key="item.country"
       @change="change($event, item)"
-      @remove="$emit('remove', $event, item)"
+      @remove="$emit('remove',  item)"
       :color="item.color"
       :country="item.iso2"
     />
